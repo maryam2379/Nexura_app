@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="boutique-page">
+    <header class="boutique-header text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">LA COLLECTION</h1>
+            <p class="lead text-muted">L'élégance redéfinie à travers nos pièces exclusives.</p>
+        </div>
+    </header>
+
+    <div class="container-fluid px-lg-5">
+        <div class="row">
+            <aside class="col-lg-3 boutique-sidebar">
+                <div class="filter-section">
+                    <h5 class="filter-title">Catégories</h5>
+                    <ul class="filter-list">
+                        <li><a href="{% url 'boutique' %}" class="active">Tout voir</a></li>
+                        <li><a href="#">Vestes & Manteaux</a></li>
+                        <li><a href="#">Éditions Limitées</a></li>
+                        <li><a href="#">Accessoires</a></li>
+                    </ul>
+                </div>
+
+                <div class="filter-section">
+                    <h5 class="filter-title">Prix minimum : <span id="priceValue">100</span>€</h5>
+                    <input type="range" class="form-range custom-range" min="100" max="2000" step="50" value="100" id="priceRange">
+                    <div class="d-flex justify-content-between text-muted small">
+                        <span>100€</span>
+                        <span>2000€</span>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="col-lg-9">
+                <div class="shop-toolbar d-flex justify-content-between align-items-center mb-4">
+                    <p class="mb-0 text-muted">Affichage de <span id="product-count">2</span> produits</p>
+                    
+                    <select id="sort-select" class="form-select w-auto border-0 bg-transparent fw-bold">
+                        <option value="default">Trier par : Nouveautés</option>
+                        <option value="price-asc">Prix : Croissant</option>
+                        <option value="price-desc">Prix : Décroissant</option>
+                    </select>
+                </div>
+
+                <div id="no-results" class="text-center py-5 d-none">
+                    <i class="fas fa-search-minus mb-3" style="font-size: 3rem; color: #D4AF37;"></i>
+                    <h3 class="font-serif">Aucun article disponible</h3>
+                    <p class="text-muted">Aucune pièce ne correspond à ce budget dans la collection actuelle.</p>
+                </div>
+
+                <div class="product-grid" id="collection-grid">
+                    <div class="product-card" data-price="650" data-order="1">
+                        <div class="product-image">
+                            <span class="badge-status">Nouveauté</span>
+                            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=1000" class="img-main">
+                            <img src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=1000" class="img-hover">
+                            <button class="add-to-cart-btn">Ajouter au panier</button>
+                        </div>
+                        <div class="product-info">
+                            <p class="p-tag">Édition Limitée</p>
+                            <h3 class="p-name">Veste Signature Sang & Or</h3>
+                            <p class="p-price">650,00 €</p>
+                        </div>
+                    </div>
+
+                    <div class="product-card" data-price="320" data-order="2">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=1000" class="img-main">
+                            <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?q=80&w=1000&auto=format&fit=crop" class="img-hover">
+                            <button class="add-to-cart-btn">Ajouter au panier</button>
+                        </div>
+                        <div class="product-info">
+                            <p class="p-tag">Cuir Premium</p>
+                            <h3 class="p-name">Blouson Noir Intense</h3>
+                            <p class="p-price">320,00 €</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rangeInput = document.getElementById('priceRange');
+    const priceValueDisplay = document.getElementById('priceValue');
+    const sortSelect = document.getElementById('sort-select');
+    const grid = document.getElementById('collection-grid');
+    const noResults = document.getElementById('no-results');
+    const countDisplay = document.getElementById('product-count');
+
+    function updateDisplay() {
+        const minPrice = parseInt(rangeInput.value);
+        priceValueDisplay.textContent = minPrice;
+        
+        let products = Array.from(grid.querySelectorAll('.product-card'));
+        const sortBy = sortSelect.value;
+
+        // 1. Logique de Tri
+        if (sortBy === 'price-asc') {
+            products.sort((a, b) => parseInt(a.dataset.price) - parseInt(b.dataset.price));
+        } else if (sortBy === 'price-desc') {
+            products.sort((a, b) => parseInt(b.dataset.price) - parseInt(a.dataset.price));
+        } else {
+            products.sort((a, b) => parseInt(a.dataset.order) - parseInt(b.dataset.order));
+        }
+
+        // 2. Logique de Filtrage + Réinsertion
+        let visibleItems = 0;
+        grid.innerHTML = ''; // On vide la grille pour réorganiser
+
+        products.forEach(card => {
+            const price = parseInt(card.dataset.price);
+            if (price >= minPrice) {
+                card.style.display = "flex";
+                grid.appendChild(card); // On réinsère dans le bon ordre
+                visibleItems++;
+            } else {
+                card.style.display = "none";
+                grid.appendChild(card); // Toujours insérer pour garder la référence
+            }
+        });
+
+        // 3. Interface
+        countDisplay.textContent = visibleItems;
+        visibleItems === 0 ? noResults.classList.remove('d-none') : noResults.classList.add('d-none');
+    }
+
+    // Écouteurs d'événements
+    rangeInput.addEventListener('input', updateDisplay);
+    sortSelect.addEventListener('change', updateDisplay);
+});
+</script>
+{% endblock %}

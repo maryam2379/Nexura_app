@@ -1,0 +1,122 @@
+    :root {
+        --nexura-red: #8B0000;
+        --nexura-gold: #D4AF37;
+        --nexura-dark: #0A0A0A;
+        --nexura-light: #f8f9fa;
+    }
+
+    body { font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+    .serif { font-family: 'Playfair Display', serif; }
+
+    /* --- HERO CAROUSEL --- */
+    .about-hero-slider {
+        height: 90vh;
+        position: relative;
+        background: var(--nexura-dark);
+        border-bottom: 3px solid var(--nexura-gold);
+    }
+
+    .carousel-inner, .carousel-item { height: 100%; }
+
+    .carousel-bg {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-size: cover;
+        background-position: center;
+        transition: transform 10s ease-in-out; /* Effet Ken Burns */
+    }
+
+    .carousel-item.active .carousel-bg { transform: scale(1.15); }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(to bottom, rgba(10,10,10,0.6), rgba(139,0,0,0.3));
+        z-index: 1;
+    }
+
+    .carousel-caption-custom {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 2;
+        width: 100%;
+        color: white;
+    }
+
+    .carousel-caption-custom h1 {
+        font-size: clamp(3.5rem, 10vw, 6.5rem);
+        letter-spacing: 5px;
+        margin-bottom: 0;
+    }
+
+    /* --- SECTION STYLES --- */
+    .section-narrow { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
+    
+    .serif-title { 
+        font-size: 3rem; 
+        color: var(--nexura-dark); 
+        position: relative;
+        display: inline-block;
+        margin-bottom: 40px;
+    }
+    .serif-title::after {
+        content: ''; position: absolute; bottom: -10px; left: 50%;
+        transform: translateX(-50%);
+        width: 80px; height: 3px; background: var(--nexura-gold);
+    }
+
+    .text-gold { color: var(--nexura-gold) !important; }
+    .tracking-widest { letter-spacing: 0.6em; text-transform: uppercase; font-size: 0.8rem; }
+
+    /* --- CONTACT FORM --- */
+    .contact-card {
+        background: white;
+        padding: 50px;
+        border-radius: 2px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        border-top: 5px solid var(--nexura-red);
+    }
+
+    .input-group-custom { position: relative; margin-bottom: 35px; }
+    .input-group-custom input, .input-group-custom textarea {
+        width: 100%; padding: 12px 0; border: none;
+        border-bottom: 1px solid #ddd; outline: none; background: transparent;
+        font-size: 1rem;
+    }
+    .input-group-custom label {
+        position: absolute; top: 12px; left: 0; color: #888;
+        transition: 0.3s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;
+    }
+    .input-group-custom input:focus ~ label, 
+    .input-group-custom input:valid ~ label,
+    .input-group-custom textarea:focus ~ label,
+    .input-group-custom textarea:valid ~ label {
+        top: -18px; color: var(--nexura-red); font-size: 0.65rem; font-weight: bold;
+    }
+
+    .btn-nexura {
+        background: var(--nexura-dark);
+        color: white;
+        border: 1px solid var(--nexura-gold);
+        padding: 18px 50px;
+        transition: 0.4s;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        cursor: pointer;
+        border-radius: 30px;
+    }
+    .btn-nexura:hover {
+        background: var(--nexura-red);
+        color: white;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(139,0,0,0.3);
+    }
+
+    /* --- ANIMATIONS --- */
+    .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67) all; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    

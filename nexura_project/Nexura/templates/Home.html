@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+     {% include "chargement.html" %}
+    
+<section class="hero-section">
+    <div class="hero-overlay">
+        <div class="hero-content">
+            <span class="hero-subtitle">Édition Limitée 2026</span>
+            <h1 class="hero-title">L'Art de se <br>Démarquer</h1>
+            <p class="hero-description">Explorez une collection où le minimalisme moderne rencontre l'élégance intemporelle de Nexura.</p>
+            <div class="hero-btns">
+                <a href="{% url 'boutique' %}" class="btn-gold">Acheter Maintenant</a>
+                <a href="#" class="btn-white-outline">Voir le Lookbook</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="info-bar">
+    <div class="info-item">
+        <i class="fas fa-shipping-fast"></i>
+        <span>Livraison Express 48h</span>
+    </div>
+    <div class="info-item">
+        <i class="fas fa-lock"></i>
+        <span>Paiement 100% Sécurisé</span>
+    </div>
+    <div class="info-item">
+        <i class="fas fa-exchange-alt"></i>
+        <span>Retours Gratuits</span>
+    </div>
+</section>
+
+<section class="products-section">
+    <div class="section-header">
+        <h2 class="section-title">Nos Incontournables</h2>
+        <a href="#" class="view-all">Voir tout →</a>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card">
+            <div class="product-image">
+                <span class="badge-new">Nouveau</span>
+                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1000&auto=format&fit=crop" alt="Veste Nexura" class="img-main">
+                <img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?q=80&w=1000&auto=format&fit=crop" alt="Veste Détail" class="img-hover">
+                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i></button>
+            </div>
+            <div class="product-info">
+                <p class="p-category">Vêtements</p>
+                <h3 class="p-name">Veste Signature Or</h3>
+                <p class="p-price">129.00 €</p>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <span class="badge-new" style ="borde-radius= 20px">Nouveau</span>
+                <img src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?q=80&w=1000&auto=format&fit=crop" class="img-main">
+                <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000&auto=format&fit=crop" class="img-hover">
+                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i></button>
+            </div>
+            <div class="product-info">
+                <h3 class="p-name">Veste Signature Or</h3>
+                <p class="p-price">650.00 €</p>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1000&auto=format&fit=crop" alt="Cuir" class="img-main">
+                <img src="https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?q=80&w=1000&auto=format&fit=crop" alt="Cuir Détail" class="img-hover">
+                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i></button>
+            </div>
+            <div class="product-info">
+                <p class="p-category">Édition Limitée</p>
+                <h3 class="p-name">Blouson Noir Intense</h3>
+                <p class="p-price">245.00 €</p>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?q=80&w=1000&auto=format&fit=crop" class="img-main">
+                <img src="https://m.media-amazon.com/images/I/61Y9a7v93cL._AC_UY1000_.jpg" class="img-hover">
+                <button class="add-to-cart-btn"><i class="fas fa-shopping-bag"></i></button>
+            </div>
+            <div class="product-info">
+                <h3 class="p-name">Blouson Noir Intense</h3>
+                <p class="p-price">330.00 €</p>
+            </div>
+        </div>
+        
+        </div>
+</section>
+
+     
+{% endblock content %}

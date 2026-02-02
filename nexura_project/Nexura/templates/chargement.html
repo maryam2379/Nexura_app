@@ -1,0 +1,137 @@
+{% load static %}
+<style>
+    #loader-wrapper {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100vh;
+        background-color: #0a0a0a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        overflow: hidden;
+        transition: opacity 0.8s ease;
+    }
+
+    .loader-content {
+        z-index: 10;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* --- LOGO : Apparition et début du retrait à 1.7s --- */
+    .loader-logo {
+        width: 400px;
+        position: absolute;
+        opacity: 0;
+        animation: logoIntro 3.5s forwards ease-in-out;
+    }
+
+    @keyframes logoIntro {
+        0% { transform: scale(0.5); opacity: 0; filter: blur(10px); }
+        30% { transform: scale(1.1); opacity: 1; filter: blur(0); }
+        65% { transform: scale(1); opacity: 1; } 
+        100% { transform: scale(0.3); opacity: 0; filter: blur(15px); } /* Retrait */
+    }
+
+    /* --- TEXTE : Apparaît à 2.2s et commence son retrait à 5s --- */
+    .brand-name {
+        color: #ffffff;
+        font-family: 'Playfair Display', serif;
+        font-size: 4.5rem;
+        letter-spacing: 12px;
+        text-transform: uppercase;
+        position: absolute;
+        opacity: 0;
+        text-shadow: 0 0 20px rgba(230, 57, 70, 0.7);
+        animation: textSequence 3.8s 2.2s forwards ease-in-out;
+    }
+
+    @keyframes textSequence {
+        0% { transform: scale(1.2); opacity: 0; filter: blur(10px); }
+        15% { transform: scale(1); opacity: 1; filter: blur(0); }
+        75% { transform: scale(1); opacity: 1; } /* Reste fixe jusqu'à 5s environ */
+        100% { transform: scale(0.3); opacity: 0; filter: blur(15px); } /* Retrait final */
+    }
+
+    /* --- CERCLES : Apparition progressive à 1.7s, arrêt net à 5s --- */
+    #circles-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        /* Se lance pendant le retrait du logo (1.7s) et disparaît net à 5s */
+        animation: circlesLife 3.3s 1.7s forwards steps(1, end); 
+    }
+
+    @keyframes circlesLife {
+        0% { opacity: 1; } /* Apparaît pendant le retrait du logo */
+        99% { opacity: 1; } /* Reste visible pendant tout le texte */
+        100% { opacity: 0; visibility: hidden; } /* S'arrête NET quand le texte se retire */
+    }
+
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0;
+        animation: fadeInOut infinite ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+        0%, 100% { transform: scale(0); opacity: 0; }
+        50% { opacity: 0.6; transform: scale(1); }
+    }
+
+    .loader-hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+</style>
+
+<div id="loader-wrapper">
+    <div id="circles-container"></div>
+    <div class="loader-content">
+        <img src="{% static 'image/logo2.png' %}" class="loader-logo" alt="Logo Nexura" >
+        <h1 class="brand-name">Nexura</h1>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById('circles-container');
+        const particleCount = 85; 
+        const colors = ['#b91c1c', '#4a0404', '#ffffff', '#F2EBE3', '#D4AF37'];
+
+        for (let i = 0; i < particleCount; i++) {
+            const circle = document.createElement('div');
+            circle.classList.add('particle');
+            const size = Math.floor(Math.random() * 45) + 10;
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            Object.assign(circle.style, {
+                width: size + 'px',
+                height: size + 'px',
+                backgroundColor: color,
+                left: posX + '%',
+                top: posY + '%',
+                animationDuration: (Math.random() * 2.5 + 1.5) + 's',
+                animationDelay: (Math.random() * 3) + 's',
+                filter: 'blur(2px)',
+                boxShadow: (color === '#D4AF37') ? '0 0 10px rgba(212, 175, 55, 0.4)' : 'none'
+            });
+            container.appendChild(circle);
+        }
+
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader-wrapper');
+                if(loader) loader.classList.add('loader-hidden');
+            }, 5000); // Fermeture juste après le retrait du texte
+        });
+    });
+</script>

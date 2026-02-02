@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    /* --- Style du bouton AJOUT RAPIDE --- */
+.item-img-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.quick-add {
+    position: absolute;
+    bottom: -50px; /* Caché par défaut */
+    left: 0;
+    width: 100%;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 5;
+}
+
+.item-card:hover .quick-add {
+    bottom: 0; /* Glisse vers le haut au survol */
+}
+
+.btn-quick {
+    width: 100%;
+    padding: 15px 0;
+    border: none;
+    background: rgba(10, 10, 10, 0.9); /* Noir Nexura transparent */
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+
+.btn-quick:hover {
+    background: var(--nexura-red, #8B0000);
+    color: #fff;
+}
+
+/* --- Style Spécifique pour l'état verrouillé --- */
+.btn-locked {
+    background: rgba(40, 40, 40, 0.95) !important;
+    color: #D4AF37 !important; /* Or Nexura */
+    font-size: 0.7rem;
+}
+
+.btn-locked i {
+    font-size: 0.65rem;
+}
+
+/* Animation de l'image au survol pour un effet luxe */
+.item-img-box:hover .img-front {
+    transform: scale(1.05);
+    filter: brightness(0.8);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="shop-wrapper">
+    <div class="shop-nav-info border-bottom">
+        <div class="container-fluid px-lg-5 d-flex justify-content-between align-items-center py-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-dark">Nexura</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Boutique</li>
+                </ol>
+            </nav>
+            <div class="shop-filters-trigger d-lg-none">
+                <button class="btn btn-outline-dark btn-sm" id="mobileFilterBtn">
+                    <i class="fas fa-sliders-h"></i> FILTRES
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid px-lg-5 py-4">
+        <div class="row">
+            <aside class="col-lg-2 shop-sidebar">
+                <div class="shop-group mb-5">
+                    <h6 class="text-uppercase fw-bold mb-3 small">Vêtements</h6>
+                    <ul class="list-unstyled shop-menu">
+                        <li><a href="{% url 'boutique' %}" class="active">Tous les articles</a></li>
+                        <li><a href="#">Vestes</a></li>
+                        <li><a href="#">Manteaux</a></li>
+                        <li><a href="#">Hauts</a></li>
+                        <li><a href="#">Pantalons</a></li>
+                    </ul>
+                </div>
+
+                <div class="shop-group mb-5">
+                    <h6 class="text-uppercase fw-bold mb-3 small">Accessoires</h6>
+                    <ul class="list-unstyled shop-menu">
+                        <li><a href="#">Maroquinerie</a></li>
+                        <li><a href="#">Bijoux Or</a></li>
+                        <li><a href="#">Parfums</a></li>
+                    </ul>
+                </div>
+
+                <div class="shop-group mb-5">
+                    <h6 class="text-uppercase fw-bold mb-3 small">Trier par prix</h6>
+                    <div class="price-inputs mt-3">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input price-filter" type="radio" name="price" id="p_all" value="all" checked>
+                            <label class="form-check-label small" for="p_all">Tous les prix</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input price-filter" type="radio" name="price" id="p1" value="0-200">
+                            <label class="form-check-label small" for="p1">0€ - 200€</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input price-filter" type="radio" name="price" id="p2" value="200-500">
+                            <label class="form-check-label small" for="p2">200€ - 500€</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input price-filter" type="radio" name="price" id="p3" value="500-10000">
+                            <label class="form-check-label small" for="p3">500€ +</label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="col-lg-10">
+                <div class="row g-4" id="productGrid">
+                    
+                    {% for product in products %}
+                    <div class="col-6 col-md-4 col-xl-3 product-item" data-price="{{ product.price|stringformat:'f' }}">
+                            <div class="item-card">
+                                <div class="item-img-box">
+                                    <a href="{% url 'detail_article' product.pk %}">
+                                        {% if product.image_front %}
+                                            <img src="{{ product.image_front.url }}" alt="{{ product.name }}" class="img-front">
+                                        {% endif %}
+                                        
+                                        {% if product.image_hover %}
+                                            <img src="{{ product.image_hover.url }}" alt="{{ product.name }}" class="img-back">
+                                        {% endif %}
+                                    </a>
+                                    
+                                    <div class="quick-add">
+                                        {% if user.is_authenticated %}
+                                            <form action="{% url 'ajouterpanier' product.pk %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn-quick">AJOUTER AU PANIER +</button>
+                                            </form>
+                                        {% else %}
+                                            <a href="{% url 'login' %}" class="btn-quick btn-locked">
+                                                <i class="fas fa-lock small me-1"></i> SE CONNECTER
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="item-details pt-3">
+                                    <h3 class="item-name">{{ product.name }}</h3>
+                                    <p class="item-price">{{ product.price }} €</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">Aucun produit disponible pour le moment.</p>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <div id="no-results" class="text-center py-5 d-none">
+                    <p class="text-muted italic">Aucune pièce ne correspond à cette sélection.</p>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filters = document.querySelectorAll('.price-filter');
+    const noResults = document.getElementById('no-results');
+
+    filters.forEach(filter => {
+        filter.addEventListener('change', function() {
+            // On récupère les produits à chaque changement pour inclure ceux générés par Django
+            const products = document.querySelectorAll('.product-item');
+            const range = this.value; 
+            let countVisible = 0;
+
+            products.forEach(product => {
+                const price = parseFloat(product.getAttribute('data-price'));
+                
+                if (range === 'all') {
+                    product.style.display = 'block';
+                    countVisible++;
+                } else {
+                    const limits = range.split('-');
+                    const min = parseFloat(limits[0]);
+                    const max = parseFloat(limits[1]);
+
+                    if (price >= min && price <= max) {
+                        product.style.display = 'block';
+                        countVisible++;
+                    } else {
+                        product.style.display = 'none';
+                    }
+                }
+            });
+
+            if (countVisible === 0) {
+                noResults.classList.remove('d-none');
+            } else {
+                noResults.classList.add('d-none');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

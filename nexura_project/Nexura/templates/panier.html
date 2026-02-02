@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5" style="min-height: 80vh;">
+    <h2 class="serif text-center mb-5" style="letter-spacing: 3px;">VOTRE SÉLECTION</h2>
+
+    {% if cart_items %}
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="table-responsive">
+                <table class="table align-middle" style="border-color: #eee;">
+                    <thead class="text-uppercase small" style="letter-spacing: 1px; color: #888;">
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix</th>
+                            <th>Quantité</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td class="d-flex align-items-center">
+                                <img src="{{ item.product.image_front.url }}" alt="" style="width: 80px; height: 100px; object-fit: cover; margin-right: 20px;">
+                                <div>
+                                    <h5 class="mb-0 serif" style="font-size: 1rem;">{{ item.product.name }}</h5>
+                                    <small class="text-muted">Réf: NX-{{ item.product.id }}</small>
+                                </div>
+                            </td>
+                            <td>{{ item.product.price }} €</td>
+                            <td>{{ item.quantity }}</td>
+                            <td class="fw-bold">{{ item.subtotal }} €</td>
+                            <td>
+                                <a href="#" class="text-dark"><i class="fas fa-times small"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="p-4 border" style="background-color: #fbfbfb;">
+                <h4 class="serif mb-4" style="font-size: 1.2rem;">RÉSUMÉ</h4>
+                <div class="d-flex justify-content-between mb-3">
+                    <span>Sous-total</span>
+                    <span>{{ total }} €</span>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                    <span>Livraison</span>
+                    <span class="text-success small">OFFERTE</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between mb-4 fw-bold">
+                    <span>TOTAL</span>
+                    <span style="color: #D4AF37; font-size: 1.3rem;">{{ total }} €</span>
+                </div>
+                <button class="btn w-100 py-3" style="background: #000; color: #fff; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; border: 1px solid #D4AF37;">
+                    Procéder au paiement
+                </button>
+                <div class="text-center mt-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" width="60" class="me-2" alt="Paypal">
+                    <i class="fab fa-cc-visa fa-2x me-2 text-muted"></i>
+                    <i class="fab fa-cc-mastercard fa-2x text-muted"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <p class="text-muted italic">Votre panier est actuellement vide.</p>
+        <a href="{% url 'boutique' %}" class="btn-nexura mt-4">Retourner à la boutique</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

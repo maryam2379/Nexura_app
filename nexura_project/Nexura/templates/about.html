@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    /* --- Styles de l'animation de succès --- */
+    .success-animation-container {
+        text-align: center;
+        padding: 20px;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .check-icon {
+        width: 80px; height: 80px;
+        position: relative;
+        border-radius: 50%;
+        margin: 20px auto;
+        border: 4px solid #D4AF37; /* Or Nexura */
+    }
+
+    .check-icon::after {
+        content: '';
+        position: absolute;
+        top: 15px; left: 10px;
+        width: 25px; height: 45px;
+        border-right: 4px solid #D4AF37;
+        border-bottom: 4px solid #D4AF37;
+        transform: rotate(45deg);
+        transform-origin: left top;
+        animation: checkmark 0.8s ease-in-out forwards;
+    }
+
+    @keyframes checkmark {
+        0% { height: 0; width: 0; opacity: 0; }
+        40% { height: 0; width: 25px; opacity: 1; }
+        100% { height: 45px; width: 25px; opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Styles pour les "Reveal" (Apparition au scroll) --- */
+    .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 1s ease-out;
+    }
+
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-container">
+
+    <section id="heroSlider" class="carousel slide carousel-fade about-hero-slider" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="6000">
+                <div class="carousel-bg" style="background-image: url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1600');"></div>
+                <div class="hero-overlay"></div>
+                <div class="carousel-caption-custom">
+                    <h1 class="serif reveal">NEXURA</h1>
+                    <p class="tracking-widest reveal">L'Audace de l'Élégance</p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="6000">
+                <div class="carousel-bg" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600');"></div>
+                <div class="hero-overlay"></div>
+                <div class="carousel-caption-custom">
+                    <h1 class="serif text-gold">HÉRITAGE</h1>
+                    <p class="tracking-widest">Savoir-faire Artisanal</p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="6000">
+                <div class="carousel-bg" style="background-image: url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1600');"></div>
+                <div class="hero-overlay"></div>
+                <div class="carousel-caption-custom">
+                    <h1 class="serif">MODERNE</h1>
+                    <p class="tracking-widest">Éditions Limitées</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-narrow text-center">
+        <div class="reveal">
+            <h2 class="serif serif-title">Notre Vision</h2>
+            <p class="lead text-muted mt-3">
+                Au-delà du vêtement, Nexura incarne un art de vivre où le <strong>Noir profond</strong> rencontre 
+                le <strong>Rouge passion</strong> et l'<strong>Or éternel</strong>. 
+                Nous créons pour ceux qui exigent l'exceptionnel.
+            </p>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-6 reveal">
+                <img src="https://images.unsplash.com/photo-1558603668-6570496b66f8?w=800" class="img-fluid" alt="Tissus">
+            </div>
+            <div class="col-md-6 d-flex align-items-center reveal">
+                <p class="text-start ps-md-4">
+                    Chaque collection est pensée comme une œuvre unique. Nos matières sont sélectionnées 
+                    auprès des meilleurs artisans mondiaux pour garantir une tenue et un confort inégalés.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light py-5">
+        <div class="container section-narrow">
+            <div class="contact-card reveal">
+                <h2 class="serif text-center mb-5" style="font-size: 2.5rem;">Entrer dans la Confidence</h2>
+                {% if messages %}
+    {% for message in messages %}
+        <div class="success-animation-container">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+            <p class="success-text serif text-gold">{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group-custom">
+                                <input type="text" name="name" id="name" required>
+                                <label for="name">Nom Complet</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group-custom">
+                                <input type="email" name="email" id="email" required>
+                                <label for="email">Votre Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group-custom">
+                        <textarea name="message" id="message" rows="4" required></textarea>
+                        <label for="message">Comment pouvons-nous vous aider ?</label>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn-nexura">Envoyer le Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Animation au défilement (Reveal)
+        const reveals = document.querySelectorAll('.reveal');
+        function handleScroll() {
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', handleScroll);
+        handleScroll(); // Lancement initial
+
+        // 2. Auto-suppression du message de succès après 6 secondes
+        const successMsg = document.querySelector('.success-animation-container');
+        if (successMsg) {
+            setTimeout(() => {
+                successMsg.style.opacity = '0';
+                successMsg.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => successMsg.remove(), 500);
+            }, 6000);
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .product-detail-wrapper { padding: 100px 0; background-color: #F2EBE3; min-height: 100vh; }
+    .detail-img-container { position: sticky; top: 100px; }
+    .main-detail-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: #fff; }
+    .product-meta { padding-left: 50px; }
+    .category-label { color: #D4AF37; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; font-weight: 700; }
+    .product-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 15px 0; }
+    .product-price { font-size: 1.5rem; font-weight: 700; margin-bottom: 30px; }
+    .description-text { color: #666; line-height: 1.8; margin-bottom: 40px; }
+    .btn-add-large { 
+        width: 100%; background: #000; color: #fff; border: none; padding: 20px; 
+        text-transform: uppercase; font-weight: 700; letter-spacing: 2px; transition: 0.3s;
+    }
+    .btn-add-large:hover { background: #4A0404; }
+</style>
+
+<div class="product-detail-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="detail-img-container">
+                    <img src="{{ product.image_front.url }}" class="main-detail-img shadow-sm" alt="{{ product.name }}">
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <img src="{{ product.image_hover.url }}" class="img-fluid border" style="cursor:pointer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="product-meta">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0">
+                            <li class="breadcrumb-item"><a href="{% url 'boutique' %}" class="text-muted text-decoration-none">Boutique</a></li>
+                            <li class="breadcrumb-item active">{{ product.name }}</li>
+                        </ol>
+                    </nav>
+
+                    <span class="category-label">{{ product.get_category_display }}</span>
+                    <h1 class="product-title">{{ product.name }}</h1>
+                    <p class="product-price">{{ product.price }} €</p>
+
+                    <div class="description-text">
+                        <p>Cette pièce exclusive de la collection Nexura incarne l'élégance contemporaine. Fabriquée avec des matériaux d'exception, elle offre une coupe parfaite et un confort inégalé.</p>
+                    </div>
+
+                    <div class="order-section">
+                        <div class="mb-4">
+                            <label class="fw-bold small text-uppercase mb-2 d-block">Taille</label>
+                            <select class="form-select border-dark rounded-0 w-50">
+                                <option>S</option>
+                                <option>M</option>
+                                <option>L</option>
+                                <option>XL</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn-add-large">Ajouter au panier — {{ product.price }} €</button>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-top">
+                        <p class="small text-muted"><i class="fas fa-truck me-2"></i> Livraison offerte sous 3 à 5 jours ouvrés.</p>
+                        <p class="small text-muted"><i class="fas fa-undo me-2"></i> Retours gratuits sous 14 jours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
