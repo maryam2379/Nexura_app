@@ -52,6 +52,32 @@
         opacity: 1;
         transform: translateY(0);
     }
+
+    /* --- Ajustements Mobile pour le Hero --- */
+@media (max-width: 768px) {
+    .carousel-item {
+        height: 60vh !important; /* On réduit la hauteur sur mobile */
+    }
+
+    .carousel-caption-custom h1 {
+        font-size: 2.5rem !important; /* "MODERNE" ne débordera plus */
+        letter-spacing: 5px;
+    }
+
+    .carousel-caption-custom p {
+        font-size: 0.8rem !important;
+        letter-spacing: 3px;
+    }
+
+    /* On s'assure que le contenu sous le slider ne remonte pas trop haut */
+    .section-narrow {
+        padding: 40px 20px;
+    }
+    
+    .row.mt-5 {
+        margin-top: 20px !important;
+    }
+}
 </style>
 {% endblock %}
 

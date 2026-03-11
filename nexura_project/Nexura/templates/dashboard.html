@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="background: #F2EBE3; min-height: 90vh; padding: 50px 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 shadow-sm p-4 text-center" style="border-top: 3px solid #D4AF37 !important;">
+                    <div class="mx-auto mb-3" style="width: 70px; height: 70px; background: #000; color: #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.5rem;">
+                        {{ user.username|first|upper }}
+                    </div>
+                    <h5 class="text-uppercase fw-bold" style="letter-spacing: 2px;">{{ user.username }}</h5>
+                    <p class="text-muted small">{{ user.email }}</p>
+                    <hr>
+                    <div class="text-start px-2">
+                        <p class="small"><strong>Statut :</strong> Membre Nexura</p>
+                        <p class="small"><strong>Depuis :</strong> {{ user.date_joined|date:"d M Y" }}</p>
+                    </div>
+                    <div >
+                        <a href="{% url 'profil' %}" class="me-3" style="text-decoration:none;">
+                            <button class="rounded-7 px-3" style="border-radius:5px;background: #000; border: 2px solid #D4AF37; transition: 0.3s;">
+                                <span class="text-white small fw-bold text-uppercase" style="letter-spacing: 1px; ">Modifier le Profil</span>
+                            </button>
+                        </a> 
+                    </div>
+                    <div style="margin-top:10px; ">
+                        <a href="{% url 'logout' %}" class="btn btn-outline-warning btn-sm px-4 fw-bold">
+                            <i class="fas fa-sign-out-alt me-2"></i> DÉCONNEXION
+                        </a>
+                    </div>
+                </div>
+        
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm p-4" style="border-top: 3px solid #8B0000 !important;">
+                    <h4 class="mb-4 fw-bold" style="letter-spacing: 1px;">HISTORIQUE DES COMMANDES</h4>
+                    
+                    {% if commandes %}
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="text-muted small text-uppercase">
+                                <tr>
+                                    <th>Référence</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                    <th>Statut</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cmd in commandes %}
+                                <tr>
+                                    <td class="fw-bold">#NX-{{ cmd.id }}</td>
+                                    <td>{{ cmd.date_commande|date:"d/m/Y" }}</td>
+                                    <td>{{ cmd.total }} €</td>
+                                    <td>
+                                        <span class="badge" style="background: {% if cmd.statut == 'Livrée' %}#198754{% elif cmd.statut == 'Expédiée' %}#D4AF37{% else %}#8B0000{% endif %}; font-size: 0.65rem; letter-spacing: 1px;">
+                                            {{ cmd.statut|upper }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'detail_commande' cmd.id %}" style="text-decoration:none">
+                                        <button class="btn btn-sm btn-dark rounded-0 px-3" style="font-size: 0.7rem;">DÉTAILS</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <p class="text-muted">Aucune commande n'a encore été effectuée.</p>
+                        <a href="{% url 'boutique' %}" class="btn-nexura-auth">DÉCOUVRIR LA COLLECTION</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

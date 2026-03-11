@@ -58,9 +58,11 @@
                     <span>TOTAL</span>
                     <span style="color: #D4AF37; font-size: 1.3rem;">{{ total }} €</span>
                 </div>
-                <button class="btn w-100 py-3" style="background: #000; color: #fff; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; border: 1px solid #D4AF37;">
-                    Procéder au paiement
-                </button>
+                <a href="{% url 'valider_commande' %}" style="text-decoration:none"> 
+                    <button class="btn w-100 py-3" style="background: #000; color: #fff; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; border: 1px solid #D4AF37;">
+                        Procéder au paiement
+                    </button>
+                </a>
                 <div class="text-center mt-3">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" width="60" class="me-2" alt="Paypal">
                     <i class="fab fa-cc-visa fa-2x me-2 text-muted"></i>

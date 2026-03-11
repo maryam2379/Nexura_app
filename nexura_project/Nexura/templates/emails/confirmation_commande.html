@@ -1,0 +1,17 @@
+<div style="font-family: 'Playfair Display', serif; max-width: 600px; margin: auto; border: 1px solid #D4AF37; padding: 20px;">
+    <h1 style="text-align: center; color: #000; letter-spacing: 5px;">NEXURA</h1>
+    <p style="text-align: center; color: #8B0000; font-weight: bold;">ACCÈS PRIVILÉGIÉ CONFIRMÉ</p>
+    
+    <p>Bonjour <strong>{{ commande.user.username }}</strong>,</p>
+    <p>Nous avons le plaisir de vous informer que votre commande <strong>#NX-{{ commande.id }}</strong> a été enregistrée avec succès.</p>
+    
+    <div style="background: #f9f9f9; padding: 15px; margin: 20px 0; border-radius:15px">
+        <p><strong>Total de la sélection :</strong> {{ commande.total }} €</p>
+        <p><strong>Statut :</strong> En préparation</p>
+    </div>
+
+    <p style="font-size: 0.9em; color: #666;">Vous trouverez votre facture officielle en pièce jointe de ce courriel.</p>
+    
+    <hr style="border: 0; border-top: 1px solid #eee;">
+    <p style="text-align: center; font-size: 0.8em;">Nexura Luxe - L'excellence à votre portée.</p>
+</div>

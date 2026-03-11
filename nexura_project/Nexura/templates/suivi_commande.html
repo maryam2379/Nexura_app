@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5" style="margin-top: 100px; max-width: 600px;">
+    <div class="text-center mb-5">
+        <h2 class="text-uppercase fw-bold letter-spacing-2">Suivi de Commande</h2>
+        <p class="text-muted small">Entrez vos informations pour localiser votre colis Nexura.</p>
+    </div>
+
+    <div class="card border-0 shadow-sm p-4 bg-light">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label small fw-bold text-uppercase">Numéro de commande</label>
+                <input type="text" name="order_id" class="form-control form-control-lg border-0" placeholder="Ex: NX-12" required>
+            </div>
+            <div class="mb-4">
+                <label class="form-label small fw-bold text-uppercase">Email associé</label>
+                <input type="email" name="email" class="form-control form-control-lg border-0" placeholder="votre@email.com" required>
+            </div>
+            <button type="submit" class="btn btn-dark w-100 py-3 fw-bold letter-spacing-1">RECHERCHER</button>
+        </form>
+    </div>
+
+    {% if commande %}
+    <div class="mt-5 p-4 border-top border-warning border-3 bg-white shadow-sm">
+        <h5 class="fw-bold text-uppercase mb-3">Statut : <span class="text-warning">{{ commande.statut }}</span></h5>
+        <div class="progress mb-3" style="height: 10px;">
+            <div class="progress-bar bg-dark" role="progressbar" 
+                 style="width: {% if commande.statut == 'En attente' %}25%{% elif commande.statut == 'Expédiée' %}75%{% elif commande.statut == 'Livrée' %}100%{% else %}10%{% endif %}">
+            </div>
+        </div>
+        <p class="small text-muted">Dernière mise à jour : {{ commande.date_commande|date:"d F Y" }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

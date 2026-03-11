@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5" style="margin-top: 100px;">
+    <div class="text-center mb-5">
+        <h2 class="text-uppercase fw-bold letter-spacing-2">Foire Aux Questions</h2>
+        <p class="text-muted small">Tout ce que vous devez savoir sur l'expérience Nexura.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <ul class="nav nav-pills justify-content-center mb-5" id="faqTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active text-uppercase small fw-bold" data-bs-toggle="pill" data-bs-target="#livraison">Livraison</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link text-uppercase small fw-bold" data-bs-toggle="pill" data-bs-target="#paiement">Paiement</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link text-uppercase small fw-bold" data-bs-toggle="pill" data-bs-target="#entretien">Entretien</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="faqContent">
+                <div class="tab-pane fade show active" id="livraison">
+                    <div class="accordion accordion-flush" id="accLivraison">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#l1">Quels sont les délais de livraison ?</button></h2>
+                            <div id="l1" class="accordion-collapse collapse" data-bs-parent="#accLivraison">
+                                <div class="accordion-body text-muted">Comptez 3 à 5 jours ouvrés pour la France et 7 à 10 jours pour l'international.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="paiement">
+                    <div class="accordion accordion-flush" id="accPaiement">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#p1">Le paiement est-il sécurisé ?</button></h2>
+                            <div id="p1" class="accordion-collapse collapse" data-bs-parent="#accPaiement">
+                                <div class="accordion-body text-muted">Nous utilisons le cryptage SSL de bout en bout. Aucune coordonnée bancaire n'est stockée sur nos serveurs.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="entretien">
+                    <div class="accordion accordion-flush" id="accEntretien">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#e1">Comment entretenir ma veste Nexura ?</button></h2>
+                            <div id="e1" class="accordion-collapse collapse" data-bs-parent="#accEntretien">
+                                <div class="accordion-body text-muted">Nous recommandons un nettoyage à sec professionnel pour préserver la structure et les matières de nos pièces d'exception.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .nav-pills .nav-link { color: #555; border-radius: 0; border-bottom: 2px solid transparent; }
+    .nav-pills .nav-link.active { background-color: transparent !important; color: #D4AF37 !important; border-bottom-color: #D4AF37; }
+    .accordion-button:not(.collapsed) { background-color: #fdfcf9; color: #D4AF37; }
+</style>
+{% endblock %}

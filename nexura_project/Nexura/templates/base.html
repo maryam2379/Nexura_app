@@ -5,189 +5,295 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexura</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <!-- Font Awesome pour les icônes sociales -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/boutiquestyle.css' %}">
     <link rel="stylesheet" href="{% static 'css/collectionstyle.css' %}">
     <link rel="stylesheet" href="{% static 'css/homestyle.css' %}">
     <link rel="stylesheet" href="{% static 'css/aboutstyle.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'image/logo2.png' %}">
-    
-    <link rel="apple-touch-icon" href="{% static 'image/logo2.png' %}">
+
+    <style>
+        /* --- NOUVEAU STYLE RECHERCHE --- */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.4); /* Or Nexura transparent */
+            transition: all 0.4s ease;
+        }
+
+        .search-form input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 0.75rem;
+            padding: 5px 0;
+            width: 0; /* Caché par défaut */
+            transition: width 0.4s ease, padding 0.4s ease;
+            outline: none;
+        }
+
+        /* Allongement au survol du conteneur */
+        .search-container:hover .search-form input,
+        .search-form input:focus {
+            width: 150px;
+            padding: 5px 10px;
+        }
+
+        .search-btn {
+            background: transparent;
+            border: none;
+            color: #D4AF37;
+            padding: 0 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .search-btn:hover {
+            color: white;
+        }
+
+        /* --- STYLE AUTHENTIFICATION --- */
+        .btn-nexura-auth {
+            background: transparent;
+            color: #D4AF37;
+            border: 1px solid #D4AF37;
+            padding: 6px 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border-radius: 7px;
+        }
+
+        .btn-nexura-auth:hover {
+            background: #8B0000;
+            border-color: #8B0000;
+            color: #fff;
+        }
+
+        .cart-link { position: relative; margin-left: 10px; }
+    </style>
 </head>
-<style>
- 
-</style>
 <body>
     
     <nav class="navbar">
         <div class="nav-container">
-            <!-- <a href="/" class="nav-logo">Nexura</a> -->
             <a class="nav-logo" href="{% url 'home'%}">
-                <img src="{% static 'image/logo1.png' %}" alt="Logo" width="65" height="70" class="d-inline-block align-text-top" margin-left="10px">
+                <img src="{% static 'image/logo1.png' %}" alt="Logo" width="65" height="70" class="d-inline-block align-text-top">
                 Nexura
-              </a>
+            </a>
 
             <div class="menu-toggle" id="mobile-menu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
 
-        <ul class="nav-links" id="nav-menu">
-            <li><a href="{% url 'home' %}" class="nav-item">Accueil</a></li>
-            <li><a href="{% url 'boutique' %}" class="nav-item">Boutique</a></li>
-            <li><a href="{% url 'collection' %}" class="nav-item">Collections</a></li>
-            <li><a href="{% url 'about' %}" class="nav-item">À propos</a></li>
-        </ul>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="{% url 'home' %}" class="nav-item">Accueil</a></li>
+                <li><a href="{% url 'boutique' %}" class="nav-item">Boutique</a></li>
+                <li><a href="{% url 'collection' %}" class="nav-item">Collections</a></li>
+                <li><a href="{% url 'about' %}" class="nav-item">À propos</a></li>
+            </ul>
 
-        <div class="nav-links">
-            {% if user.is_authenticated %}
-                <span class="text-white small me-3">Bonjour, {{ user.username }}</span>
-                <a href="{% url 'logout' %}" class="btn-nexura-sm">SE DÉCONNECTER</a>
-            {% else %}
-                <a href="{% url 'login' %}" class="btn-nexura-sm">CONNEXION</a>
-            {% endif %}
-        </div>
+            <div class="nav-actions d-flex align-items-center">
+                
+                <div class="search-container">
+                    <form action="{% url 'boutique' %}" method="GET" class="search-form">
+                        <input type="text" name="q" placeholder="Recherche..." value="{{ query|default:'' }}">
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
 
-        <div class="nav-actions">
-            <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
-            <a href="{% url 'panier' %}" class="cart-link">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                            class="bi bi-cart3 text-warning" viewBox="0 0 16 16">
-                            <path
-                                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-                        </svg>
-               <!-- <i class="bi bi-cart3" style="width:23; height:23" ></i> -->
-                        <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle" style="font-size: 0.6rem;">
-                    {{ cart_count }}
-                </span>
-            </a>
-        </div>
-        </div>
-    </nav>
-     {% block content %}{% endblock content %}
-    <!-- footer -->
-     <footer class="main-footer">
-    <div class="footer-container" style="font-family: 'Times New Roman', Times, serif;font-size: 16px;">
-        <div class="footer-col">
-            <h2 class="footer-logo">Nexura</h2>
-            <p class="footer-description">
-                L'excellence du style moderne. Des collections exclusives conçues pour ceux qui osent se démarquer.
-            </p>
-            <div class="footer-socials" style="justify-content: space-between;">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="bi bi-twitter-x" style="color: white;"></i></a>
-                <a href="#"><i class="fab fa-tiktok" style="color: white;"></i></a>
+                {% if user.is_authenticated %}
+                    <div class="d-flex align-items-center me-3">
+                        <a href="{% url 'dashboard' %}" style="text-decoration:none">
+                            <i class="fas fa-user-circle text-white me-2" style="font-size: 0.9rem;"></i>
+                            <span class="text-white small fw-bold text-uppercase" style="letter-spacing: 1px;">
+                                {{ user.username }}
+                            </span>
+                        </a>
+                    </div>
+                {% else %}
+                    {% if request.resolver_match.url_name == 'boutique' %}
+                        <a href="{% url 'login' %}" class="btn-nexura-auth me-3">CONNEXION</a>
+                    {% endif %}
+                {% endif %}
+
+                <a href="{% url 'panier' %}" class="cart-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                        class="bi bi-cart3 text-warning" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                    </svg>
+                    <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle" style="font-size: 0.6rem;">
+                        {{ cart_count }}
+                    </span>
+                </a>
             </div>
         </div>
+    </nav>
 
-        <div class="footer-col">
-            <h3>Assistance</h3>
-            <ul>
-                <li><a href="#">Suivre ma commande</a></li>
-                <li><a href="#">Retours & Échanges</a></li>
-                <li><a href="#">Guide des tailles</a></li>
-                <li><a href="#">FAQ</a></li>
-            </ul>
-        </div>
+    {% block content %}{% endblock content %}
 
-        <div class="footer-col">
-            <h3>Boutique</h3>
-            <ul>
-                <li><a href="#">Nouveautés</a></li>
-                <li><a href="#">Exclusivités</a></li>
-                <li><a href="#">Accessoires</a></li>
-                <li><a href="#">Promotions</a></li>
-            </ul>
-        </div>
+     <!-- footer -->
 
-        <div class="footer-col">
-            <h3>Rejoignez l'univers</h3>
-            <p>Inscrivez-vous pour recevoir nos sorties prioritaires.</p>
-            <form class="newsletter-form">
-                <input type="email" placeholder="Votre email" required>
-                <button type="submit">S'abonner</button>
-            </form>
-        </div>
-    </div>
+<footer class="main-footer">
 
-    <div class="footer-bottom">
-        <p>&copy; 2026 NEXURA. Tous droits réservés.</p>
-        <div class="payment-icons">
-            <i class="fab fa-cc-visa"></i>
-            <i class="fab fa-cc-mastercard"></i>
-            <i class="fab fa-apple-pay"></i>
-        </div>
-    </div>
-    
+<div class="footer-container" style="font-family: 'Times New Roman', Times, serif;font-size: 16px;">
+
+<div class="footer-col">
+
+<h2 class="footer-logo">Nexura</h2>
+
+<p class="footer-description">
+
+L'excellence du style moderne. Des collections exclusives conçues pour ceux qui osent se démarquer.
+
+</p>
+
+<div class="footer-socials" style="justify-content: space-between;">
+
+<a href="#"><i class="fab fa-instagram"></i></a>
+
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+
+<a href="#"><i class="bi bi-twitter-x" style="color: white;"></i></a>
+
+<a href="#"><i class="fab fa-tiktok" style="color: white;"></i></a>
+
+</div>
+
+</div>
+
+
+<div class="footer-col">
+
+<h3>Assistance</h3>
+
+<ul>
+
+<li><a href="{% url 'suivi_commande' %}">Suivre ma commande</a></li>
+
+<li><a href="{% url 'retours_view' %}">Retours & Échanges</a></li>
+
+<li><a href="{% url 'guide_tailles' %}">Guide des tailles</a></li>
+
+<li><a href="{% url 'faq' %}">FAQ</a></li>
+
+</ul>
+
+</div>
+
+
+<div class="footer-col">
+
+<h3>Boutique</h3>
+
+<ul>
+        <li><a href="{% url 'boutique' %}?filtre=nouveautes">Nouveautés</a></li>
+        
+        <li><a href="{% url 'boutique' %}?categorie=ACC">Accessoires</a></li>
+        
+        <li><a href="{% url 'boutique' %}?filtre=promos">Promotions</a></li>
+        
+        <li><a href="{% url 'boutique' %}">Exclusivités</a></li>
+    </ul>
+
+</div>
+
+
+<div class="footer-col">
+    <h3>Rejoignez l'univers</h3>
+    <p>Inscrivez-vous pour recevoir nos sorties prioritaires.</p>
+    <form action="{% url 'newsletter_subscribe' %}" method="POST" class="newsletter-form">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Votre email" required> 
+        <button type="submit">S'abonner</button>
+    </form>
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+<p>&copy; 2026 NEXURA. Tous droits réservés.</p>
+
+<div class="payment-icons">
+
+<i class="fab fa-cc-visa"></i>
+
+<i class="fab fa-cc-mastercard"></i>
+
+<i class="fab fa-apple-pay"></i>
+
+</div>
+
+</div>
+
 </footer>
 
-   
 
 
 
 
-<script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-    window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
-        navbar.style.height = '70px';
-        navbar.style.backdropFilter = 'blur(10px)';
-    } else {
-        navbar.style.backgroundColor = '#0a0a0a';
-        navbar.style.height = '80px';
-        navbar.style.backdropFilter = 'none';
-    }
-});
-
-const menu = document.querySelector('#mobile-menu');
-const menuLinks = document.querySelector('#nav-menu');
-
-menu.addEventListener('click', function() {
-    menu.classList.toggle('is-active');
-    menuLinks.classList.toggle('active');
-});
-
-// Fermer le menu si on clique sur un lien
-document.querySelectorAll('.nav-item').forEach(n => n.addEventListener('click', () => {
-    menu.classList.remove('is-active');
-    menuLinks.classList.remove('active');
-}));
-
-// Effet de scroll pour la Navbar
-    window.addEventListener('scroll', () => {
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 1. GESTION DE LA NAVBAR (Scroll & Mobile) ---
         const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
-            navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
-            navbar.style.height = '70px';
-        } else {
-            navbar.style.backgroundColor = '#0a0a0a';
-            navbar.style.height = '80px';
-        }
-    });
-    // effet pour la page a propos
-  document.addEventListener('DOMContentLoaded', function() {
-        // 1. Forcer le lancement du carrousel
-        const myCarouselElement = document.querySelector('#heroSlider');
-        const carousel = new bootstrap.Carousel(myCarouselElement, {
-            interval: 5000,
-            ride: 'carousel',
-            pause: false
+        const menu = document.querySelector('#mobile-menu');
+        const menuLinks = document.querySelector('#nav-menu');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
+                navbar.style.height = '70px';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.backgroundColor = '#0a0a0a';
+                navbar.style.height = '80px';
+                navbar.style.backdropFilter = 'none';
+            }
         });
 
-        // 2. Gestion des animations au scroll (Reveal)
+        if(menu) {
+            menu.addEventListener('click', function() {
+                menu.classList.toggle('is-active');
+                menuLinks.classList.toggle('active');
+            });
+        }
+
+        // --- 2. GESTION DU CARROUSEL (À Propos) ---
+        const myCarouselElement = document.querySelector('#heroSlider');
+        if (myCarouselElement) {
+            new bootstrap.Carousel(myCarouselElement, {
+                interval: 5000,
+                ride: 'carousel',
+                pause: false
+            });
+        }
+
+        // --- 3. GESTION DU REVEAL (Apparition au scroll) ---
         const reveals = document.querySelectorAll('.reveal');
+        
         function handleScroll() {
             reveals.forEach(el => {
                 const elementTop = el.getBoundingClientRect().top;
@@ -197,11 +303,13 @@ document.querySelectorAll('.nav-item').forEach(n => n.addEventListener('click', 
                 }
             });
         }
+
         window.addEventListener('scroll', handleScroll);
-        handleScroll(); // Check au chargement
-    });
-
-
+        
+        // On force un petit délai pour être sûr que tout est chargé avant le premier check
+        setTimeout(handleScroll, 300); 
+    }); // <--- C'était cette accolade qui manquait !
 </script>
+
 </body>
 </html>

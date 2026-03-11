@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5" style="margin-top: 80px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="profile-container bg-white p-4 p-md-5 border shadow-sm">
+                
+                <header class="profile-header mb-5 text-center">
+                    <h2 class="text-uppercase fw-bold letter-spacing-2" style=" color: #b91c1c;">Mon Profil Nexura</h2>
+                    <p class="text-muted small italic">Gérez vos informations personnelles et vos coordonnées de livraison.</p>
+                </header>
+
+                <form method="POST" class="nexura-form">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <h5 class="section-title text-uppercase mb-4">Identité</h5>
+                            {% for field in u_form %}
+                                <div class="form-group mb-3">
+                                    <label class="small fw-bold text-uppercase">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="text-danger small">{{ field.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <h5 class="section-title text-uppercase mb-4">Livraison & Contact</h5>
+                            {% for field in p_form %}
+                                <div class="form-group mb-3">
+                                    <label class="small fw-bold text-uppercase">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="text-danger small">{{ field.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-actions mt-4 pt-4 border-top text-center">
+                        <button type="submit" class="btn btn-dark btn-nexura-lg px-5 py-3 text-uppercase fw-bold" style=" border-radius:7px,">
+                            Mettre à jour le profil
+                        </button>
+                    </div>
+                </form>
+
+                <div class="profile-footer mt-5 pt-3 text-center">
+                    <a href="{% url 'dashboard' %}" class="text-dark small text-decoration-none border-bottom border-dark pb-1">
+                        RETOUR AU TABLEAU DE BORD
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .letter-spacing-2 { letter-spacing: 2px; }
+    
+    .profile-container {
+        border-radius: 0;
+        border: 1px solid #f0f0f0;
+    }
+
+    .section-title {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        color: #1a1a1a;
+    }
+
+    .nexura-input, .form-control {
+        border-radius: 0 !important;
+        border: 1px solid #dcdcdc !important;
+        padding: 12px !important;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .nexura-input:focus, .form-control:focus {
+        border-color: #000 !important;
+        box-shadow: none !important;
+        background-color: #fafafa;
+    }
+
+    .btn-nexura-lg {
+        border-radius: 8;
+        letter-spacing: 2px;
+        transition: all 0.4s;
+    }
+
+    .btn-nexura-lg:hover {
+        background-color: #333;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}

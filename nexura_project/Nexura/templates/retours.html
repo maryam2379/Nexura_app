@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5" style="margin-top: 100px;">
+    <div class="text-center mb-5">
+        <h2 class="text-uppercase fw-bold letter-spacing-2">Retours & Échanges</h2>
+        <p class="text-muted">La satisfaction Nexura est notre priorité absolue.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="accordion accordion-flush shadow-sm" id="accordionRetours">
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button fw-bold text-uppercase small" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            Quelle est votre politique de retour ?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionRetours">
+                        <div class="accordion-body text-muted">
+                            Vous disposez d'un délai de **14 jours** après réception de votre commande pour demander un retour. Les pièces doivent être dans leur état d'origine, non portées, avec toutes les étiquettes Nexura intactes.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-uppercase small" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            Comment effectuer un échange ?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionRetours">
+                        <div class="accordion-body text-muted">
+                            Pour un échange de taille ou de couleur, veuillez nous contacter via le formulaire de contact ou par email à support@nexura.com en précisant votre numéro de commande **#NX-**.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold text-uppercase small" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            Les retours sont-ils gratuits ?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionRetours">
+                        <div class="accordion-body text-muted">
+                            Pour nos clients membres Nexura, les frais de retour sont offerts. Pour les commandes classiques, les frais d'expédition de retour restent à la charge du client.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-5 p-4 border border-dark">
+                <p class="mb-3 small fw-bold">BESOIN D'AIDE SUPPLÉMENTAIRE ?</p>
+                <a href="{% url 'about' %}" class="btn btn-dark btn-sm px-4">CONTACTER LE SERVICE CLIENT</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -251,6 +251,7 @@ body {
 .newsletter-form {
     display: flex;
     margin-top: 15px;
+    
 }
 
 .newsletter-form input {
@@ -422,4 +423,30 @@ body {
     .hero-overlay { padding: 0 5%; text-align: center; justify-content: center; }
 }
 
-/* style de la page boutique  */
+/* --- Ajustements Mobile pour la Navbar --- */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0 15px;
+        justify-content: space-between;
+    }
+
+    .nav-logo {
+        font-size: 1.2rem;
+    }
+
+    /* On cache le texte "ADMIN" pour gagner de la place, on garde l'icône */
+    .btn-nexura-auth span, .me-3 span {
+        display: none;
+    }
+
+    .search-container:hover .search-form input,
+    .search-form input:focus {
+        width: 100px; /* Plus petit sur mobile */
+    }
+
+    /* Ajustement du menu mobile pour qu'il passe au-dessus du contenu */
+    .nav-links {
+        background-color: #0a0a0a;
+        z-index: 1001;
+    }
+}

@@ -1,54 +1,139 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="auth-wrapper d-flex align-items-center justify-content-center" style="min-height: 80vh; background: #0a0a0a;">
-    <div class="auth-card p-5 text-center" style="max-width: 450px; width: 100%; border: 1px solid #D4AF37;">
-        <h2 class="serif text-gold mb-4" style="letter-spacing: 4px;">NEXURA</h2>
-        <p class="text-white-50 mb-5 small text-uppercase">Accès Membre Privilégié</p>
+<div class="auth-page-container">
+    <div class="auth-card shadow-sm">
+        <div class="auth-header text-center">
+            <h2 class="serif">NEXURA</h2>
+            <div class="gold-divider"></div>
+            <p class="auth-subtitle">
+                {% if request.resolver_match.url_name == 'login' %}
+                    ACCÈS MEMBRE PRIVILÉGIÉ
+                    
+                {% else %}
+                    CRÉER UN COMPTE MEMBRE
+                {% endif %}
+            </p>
+            <div class="text-center mt-3">
+                <a href="{% url 'password_reset' %}" class="auth-link-alt2">Mot de passe oublié ?</a>
+            </div>
+        </div>
 
-        <form method="POST">
+        <form method="POST" class="auth-form">
             {% csrf_token %}
             
-            <div class="custom-form-fields text-start text-white">
+            <div class="form-fields-wrapper">
                 {{ form.as_p }}
             </div>
 
-            <button type="submit" class="btn-nexura w-100 mt-4 py-3">
-                Valider
+            <button type="submit" class="btn-auth-submit">
+                VALIDER
             </button>
         </form>
 
-        <div class="mt-4">
+        <div class="auth-footer text-center mt-4 pt-3 border-top">
             {% if request.resolver_match.url_name == 'login' %}
-                <a href="{% url 'register' %}" class="text-white-50 small">Pas encore membre ? Créer un compte</a>
+                <span class="text-muted small">Pas encore membre ?</span>
+                <a href="{% url 'register' %}" class="auth-link-alt">S'INSCRIRE</a>
             {% else %}
-                <a href="{% url 'login' %}" class="text-white-50 small">Déjà inscrit ? Se connecter</a>
+                <span class="text-muted small">Déjà inscrit ?</span>
+                <a href="{% url 'login' %}" class="auth-link-alt">SE CONNECTER</a>
             {% endif %}
         </div>
     </div>
 </div>
 
 <style>
-    .text-gold { color: #D4AF37; }
-    .custom-form-fields input {
-        width: 100%;
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid #333;
-        color: white;
-        padding: 10px 0;
-        margin-bottom: 20px;
-    }
-    .custom-form-fields input:focus {
-        outline: none;
-        border-bottom: 1px solid #D4AF37;
-    }
-    .custom-form-fields label {
-        display: block;
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #888;
-    }
+/* Structure globale */
+.auth-page-container {
+    background: #F2EBE3; /* Blanc cassé luxueux */
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 510px;
+    padding: 50px 40px;
+    border-top: 4px solid #8B0000; /* Liseré Rouge Nexura */
+    border-radius:7px;
+}
+
+/* Typographie */
+.serif { font-family: 'Playfair Display', serif; letter-spacing: 5px; color: #000; }
+.gold-divider { width: 40px; height: 2px; background: #D4AF37; margin: 15px auto; }
+.auth-subtitle { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; color: #888; }
+
+/* Styling des champs de formulaire Django */
+.form-fields-wrapper p { margin-bottom: 20px; }
+.form-fields-wrapper label {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+.form-fields-wrapper input {
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    background: #fbfbfb;
+    font-size: 0.9rem;
+    transition: border 0.3s;
+    border-radius: 7px;
+}
+.form-fields-wrapper input:focus {
+    outline: none;
+    border-color: #D4AF37; /* Or au focus */
+    background: #fff;
+}
+
+/* Bouton de validation */
+.btn-auth-submit {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-top: 10px;
+    transition: 0.3s;
+    border-radius: 7px;
+}
+.btn-auth-submit:hover {
+    background: #8B0000; /* Passage au Rouge au survol */
+    transform: translateY(-2px);
+}
+
+/* Liens alternatifs */
+.auth-link-alt {
+    color: #8B0000;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 5px;
+    letter-spacing: 1px;
+}
+.auth-link-alt:hover { text-decoration: underline; }
+
+.auth-link-alt2 {
+    color: #4c4b4b;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 5px;
+    letter-spacing: 1px;
+}
+.auth-link-alt2:hover { text-decoration: underline; }
+
+/* Erreurs Django */
+.errorlist { color: #8B0000; font-size: 0.7rem; padding: 0; list-style: none; margin-bottom: 10px; }
 </style>
 {% endblock %}
